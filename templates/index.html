@@ -35,15 +35,15 @@
                 </div>
             </div>
             <div class="header-actions">
-                <button id="btn-export-csv" class="btn btn-secondary" title="Export current updates to CSV">
+                <button id="btn-export-csv" class="btn btn-secondary" title="Export current updates to CSV" aria-label="Export filtered release notes to CSV">
                     <i class="fa-solid fa-file-csv"></i>
                     <span>Export CSV</span>
                 </button>
-                <button id="btn-refresh" class="btn btn-primary" title="Refresh Release Notes">
+                <button id="btn-refresh" class="btn btn-primary" title="Refresh Release Notes" aria-label="Fetch latest release notes from Google Cloud">
                     <i id="refresh-spinner" class="fa-solid fa-arrows-rotate"></i>
                     <span>Refresh</span>
                 </button>
-                <button id="btn-theme-toggle" class="btn btn-secondary theme-toggle-btn" title="Toggle Light/Dark Mode">
+                <button id="btn-theme-toggle" class="btn btn-secondary theme-toggle-btn" title="Toggle Light/Dark Mode" aria-label="Toggle between dark and light mode">
                     <i id="theme-toggle-icon" class="fa-solid fa-moon"></i>
                 </button>
             </div>
@@ -53,8 +53,8 @@
         <section class="control-bar glass-card">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="search-input" placeholder="Search updates (e.g. Gemini, external tables, policy)..." autocomplete="off">
-                <button id="btn-clear-search" class="clear-search-btn" style="display: none;">
+                <input type="text" id="search-input" placeholder="Search updates (e.g. Gemini, external tables, policy)..." autocomplete="off" aria-label="Search release notes">
+                <button id="btn-clear-search" class="clear-search-btn" style="display: none;" aria-label="Clear search input query">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -62,11 +62,11 @@
             <div class="filters-container">
                 <label class="filter-label">Filter by type:</label>
                 <div class="filter-buttons" id="filter-buttons-group">
-                    <button class="btn btn-filter active" data-type="all">All</button>
-                    <button class="btn btn-filter" data-type="feature"><span class="dot dot-feature"></span>Feature</button>
-                    <button class="btn btn-filter" data-type="announcement"><span class="dot dot-announcement"></span>Announcement</button>
-                    <button class="btn btn-filter" data-type="issue"><span class="dot dot-issue"></span>Issue</button>
-                    <button class="btn btn-filter" data-type="deprecation"><span class="dot dot-deprecation"></span>Deprecation</button>
+                    <button class="btn btn-filter active" data-type="all" aria-label="Show all update types">All</button>
+                    <button class="btn btn-filter" data-type="feature" aria-label="Show features only"><span class="dot dot-feature"></span>Feature</button>
+                    <button class="btn btn-filter" data-type="announcement" aria-label="Show announcements only"><span class="dot dot-announcement"></span>Announcement</button>
+                    <button class="btn btn-filter" data-type="issue" aria-label="Show issues only"><span class="dot dot-issue"></span>Issue</button>
+                    <button class="btn btn-filter" data-type="deprecation" aria-label="Show deprecations only"><span class="dot dot-deprecation"></span>Deprecation</button>
                 </div>
             </div>
         </section>
@@ -131,6 +131,7 @@
                 <i class="fa-solid fa-folder-open empty-icon"></i>
                 <h3>No Updates Found</h3>
                 <p>Try adjusting your search queries or category filters.</p>
+                <button id="btn-reset-filters" class="btn btn-secondary mt-3" aria-label="Reset search query and category filters">Reset Search &amp; Filters</button>
             </div>
 
             <!-- Release Notes Cards List -->
@@ -150,7 +151,7 @@
         <div class="modal-content glass-card animate-modal">
             <div class="modal-header">
                 <h2><i class="fa-brands fa-x-twitter header-tweet-icon"></i> Draft Update Tweet</h2>
-                <button id="modal-close" class="modal-close-btn" title="Close modal">
+                <button id="modal-close" class="modal-close-btn" title="Close modal" aria-label="Close tweet draft modal">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -163,7 +164,7 @@
 
                 <div class="form-group">
                     <label for="tweet-textarea" class="textarea-label">Customize your tweet:</label>
-                    <textarea id="tweet-textarea" rows="5" maxlength="280"></textarea>
+                    <textarea id="tweet-textarea" rows="5" maxlength="280" aria-label="Edit tweet text contents"></textarea>
                     
                     <div class="textarea-footer">
                         <span id="char-counter" class="char-counter">0 / 280</span>
@@ -186,6 +187,11 @@
         <i id="toast-icon" class="fa-solid fa-check-circle"></i>
         <span id="toast-message">Action completed successfully</span>
     </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="btn-scroll-top" class="scroll-top-btn glass-card" title="Scroll to Top" aria-label="Scroll page back to top" style="display: none;">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
     <!-- JavaScript Application File -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

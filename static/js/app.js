@@ -21,6 +21,8 @@ const errorMessage = document.getElementById('error-message');
 const btnRetry = document.getElementById('btn-retry');
 const emptyContainer = document.getElementById('empty-container');
 const notesListContainer = document.getElementById('notes-list-container');
+const btnResetFilters = document.getElementById('btn-reset-filters');
+const btnScrollTop = document.getElementById('btn-scroll-top');
 
 // Modal Elements
 const tweetModal = document.getElementById('tweet-modal');
@@ -107,6 +109,34 @@ function setupEventListeners() {
             closeTweetModal();
         }
     });
+
+    // Reset Filters Button Click
+    if (btnResetFilters) {
+        btnResetFilters.addEventListener('click', () => {
+            searchInput.value = '';
+            searchQuery = '';
+            btnClearSearch.style.display = 'none';
+            document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
+            const allBtn = document.querySelector('.btn-filter[data-type="all"]');
+            if (allBtn) allBtn.classList.add('active');
+            activeTypeFilter = 'all';
+            applyFiltersAndSearch();
+        });
+    }
+
+    // Scroll to Top visibility
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            btnScrollTop.style.display = 'flex';
+        } else {
+            btnScrollTop.style.display = 'none';
+        }
+    });
+
+    // Scroll to Top click
+    btnScrollTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 }
 
 // Fetch Release Notes from API
@@ -183,11 +213,15 @@ function createNoteCard(note) {
         badgeClass = `badge-${typeLower}`;
     }
 
+    const relativeTime = getRelativeTimeString(note.date);
+    const relativeTimeHtml = relativeTime ? `<span class="relative-date-tag">${relativeTime}</span>` : '';
+
     card.innerHTML = `
         <div class="note-card-header">
             <div class="note-date-container">
                 <i class="fa-regular fa-calendar note-date-icon"></i>
                 <span>${note.date}</span>
+                ${relativeTimeHtml}
             </div>
             <span class="badge ${badgeClass}">${note.type}</span>
         </div>
@@ -195,15 +229,15 @@ function createNoteCard(note) {
             ${note.body_html}
         </div>
         <div class="note-actions">
-            <a href="${note.link}" target="_blank" rel="noopener noreferrer" class="note-link-btn" title="View official Google Cloud release page">
+            <a href="${note.link}" target="_blank" rel="noopener noreferrer" class="note-link-btn" title="View official Google Cloud release page" aria-label="View official release page for update on ${note.date}">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 <span>Google Docs</span>
             </a>
-            <button class="btn-copy-card" title="Copy text to clipboard">
+            <button class="btn-copy-card" title="Copy text to clipboard" aria-label="Copy release note description text to clipboard">
                 <i class="fa-regular fa-copy"></i>
                 <span>Copy</span>
             </button>
-            <button class="btn-tweet-card" title="Prepare tweet about this update">
+            <button class="btn-tweet-card" title="Prepare tweet about this update" aria-label="Draft and preview a tweet about this update">
                 <i class="fa-brands fa-x-twitter"></i>
                 <span>Tweet</span>
             </button>
@@ -471,4 +505,28 @@ function toggleTheme() {
         localStorage.setItem('theme', 'light');
         showToast('Switched to Light Mode');
     }
+}
+
+// Generate relative time description
+function getRelativeTimeString(dateStr) {
+    const date = new Date(dateStr);
+    const now = new Date();
+    
+    // Strip time to compare calendar dates
+    const d1 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const d2 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    const diffTime = d2 - d1;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 0) return '';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) {
+        const weeks = Math.floor(diffDays / 7);
+        return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+    }
+    const months = Math.floor(diffDays / 30);
+    return `${months} ${months === 1 ? 'month' : 'months'} ago`;
 }
