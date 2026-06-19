@@ -105,6 +105,12 @@ h1, h2, h3, h4 {
     border-bottom: 1px solid var(--border-color);
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .header-logo-container {
     display: flex;
     align-items: center;
@@ -807,10 +813,18 @@ h1, h2, h3, h4 {
     
     .header-actions {
         width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
     
     .header-actions .btn {
-        width: 100%;
+        flex: 1;
+        width: auto;
+    }
+    
+    .header-actions .theme-toggle-btn {
+        flex: 0 0 42px;
     }
     
     .filters-container {
