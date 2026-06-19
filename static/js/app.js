@@ -6,6 +6,8 @@ let searchQuery = '';
 // DOM Elements
 const btnRefresh = document.getElementById('btn-refresh');
 const btnExportCsv = document.getElementById('btn-export-csv');
+const btnThemeToggle = document.getElementById('btn-theme-toggle');
+const themeToggleIcon = document.getElementById('theme-toggle-icon');
 const refreshSpinner = document.getElementById('refresh-spinner');
 const searchInput = document.getElementById('search-input');
 const btnClearSearch = document.getElementById('btn-clear-search');
@@ -37,12 +39,16 @@ const toastMessage = document.getElementById('toast-message');
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
+    initializeTheme();
     loadReleaseNotes();
     setupEventListeners();
 });
 
 // Event Listeners Configuration
 function setupEventListeners() {
+    // Theme Toggle Click
+    btnThemeToggle.addEventListener('click', toggleTheme);
+
     // Refresh Button Click
     btnRefresh.addEventListener('click', () => {
         loadReleaseNotes(true);
@@ -438,4 +444,31 @@ function exportToCsv() {
     document.body.removeChild(link);
     
     showToast('Exported CSV successfully!');
+}
+
+// Initialize theme from localStorage
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggleIcon.className = 'fa-solid fa-sun';
+    } else {
+        document.body.classList.remove('light-mode');
+        themeToggleIcon.className = 'fa-solid fa-moon';
+    }
+}
+
+// Toggle light/dark theme
+function toggleTheme() {
+    if (document.body.classList.contains('light-mode')) {
+        document.body.classList.remove('light-mode');
+        themeToggleIcon.className = 'fa-solid fa-moon';
+        localStorage.setItem('theme', 'dark');
+        showToast('Switched to Dark Mode');
+    } else {
+        document.body.classList.add('light-mode');
+        themeToggleIcon.className = 'fa-solid fa-sun';
+        localStorage.setItem('theme', 'light');
+        showToast('Switched to Light Mode');
+    }
 }
