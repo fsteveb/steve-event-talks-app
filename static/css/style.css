@@ -489,7 +489,7 @@ h1, h2, h3, h4 {
     color: var(--text-primary);
 }
 
-.btn-tweet-card {
+.btn-tweet-card, .btn-copy-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
@@ -501,6 +501,11 @@ h1, h2, h3, h4 {
     gap: 6px;
     cursor: pointer;
     transition: var(--transition-smooth);
+}
+
+.btn-copy-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
 }
 
 .btn-tweet-card:hover {
